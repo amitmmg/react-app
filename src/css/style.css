@@ -1,0 +1,50 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    margin: 0;
+}
+.sidebar {
+    width: 200px;
+    background: #333;
+    color: white;
+    padding: 20px;
+    height: 100vh;
+}
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+.sidebar ul li {
+    margin: 20px 0;
+}
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+}
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+.dashboard {
+    display: flex;
+    gap: 20px;
+}
+.card {
+    background: #f4f4f4;
+    padding: 20px;
+    border-radius: 5px;
+}
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.user-table th, .user-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+.user-table th {
+    background: #333;
+    color: white;
+}
