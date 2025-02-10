@@ -5,7 +5,7 @@ function App() {
   return (
   
 <>
-    <h1>Welcome to Admin Panel</h1>
+    <h1>Welcome toel</h1>
         <div class="dashboard">
             <div class="card">Total Users: <span id="userCount">0</span></div>
             <div class="card">Active Sessions: <span id="sessionCount">0</span></div>
