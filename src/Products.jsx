@@ -3,6 +3,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "./css/ProductList.css";
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
 function ProductList() {
   const [products, setProducts] = useState([]);
 
@@ -12,7 +14,7 @@ function ProductList() {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/products");
+      const response = await axios.get(`${API_BASE_URL}/api/products`);
       setProducts(response.data);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -23,7 +25,7 @@ function ProductList() {
     <div className="product-container">
       <div className="header">
         <h2>Product List</h2>
-        <Link to="/" className="add-product-button">Add Product</Link>
+        <Link to="/add-product" className="add-product-button">Add Product</Link>
       </div>
 
       <table className="product-table">
@@ -43,9 +45,10 @@ function ProductList() {
                 <td>{index + 1}</td>
                 <td>
                   <img 
-                    src={`http://localhost:5000/uploads/${product.image}`} 
+                    src={`${API_BASE_URL}${product.image}`} 
                     alt={product.name} 
                     className="product-image"
+                    onError={(e) => (e.target.src = "/placeholder.jpg")}
                   />
                 </td>
                 <td>{product.name}</td>
