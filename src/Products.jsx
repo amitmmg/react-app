@@ -43,7 +43,7 @@ function ProductList() {
                 <td>{index + 1}</td>
                 <td>
                   <img 
-                    src={`http://localhost:5000${product.image}`} 
+                    src={`http://localhost:5000/uploads/${product.image}`} 
                     alt={product.name} 
                     className="product-image"
                   />
