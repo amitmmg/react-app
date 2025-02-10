@@ -1,54 +1,58 @@
-import logo from './logo.svg';
-import './css/style.css';
-import './css/script';
-
+import { useState, useEffect } from "react";
+import axios from "axios";
+import "./css/style.css";
+import { Link } from "react-router-dom";
 function App() {
+  const [products, setProducts] = useState([]);
+  const [newProduct, setNewProduct] = useState({
+    name: "",
+    price: "",
+    description: "",
+    image: null
+  });
+  const handleChange = (e) => {
+    if (e.target.name === "image") {
+      setNewProduct({ ...newProduct, image: e.target.files[0] });
+    } else {
+      setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
+    }
+  };
+
+  // Add Product
+  const addProduct = async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData();
+    formData.append("name", newProduct.name);
+    formData.append("price", newProduct.price);
+    formData.append("description", newProduct.description);
+    formData.append("image", newProduct.image);
+
+    try {
+      const response = await axios.post("http://localhost:5000/api/products", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      alert("Product Added Successfully!");
+      setProducts([...products, response.data.product]);
+      setNewProduct({ name: "", price: "", description: "", image: null });
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
+  };
+
   return (
     <>
-      <h1>Welcome to El</h1>
-      <div className="dashboard">
-        <div className="card">Total Users: <span id="userCount">0</span></div>
-        <div className="card">Active Sessions: <span id="sessionCount">0</span></div>
-      </div>
-      
-      <h2>User List</h2>
-      <table className="user-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-          </tr>
-        </thead>
-        <tbody id="userTableBody">
-        </tbody>
-      </table>
-      
-      <h2>Products</h2>
-      <div className="product-list">
-        <div className="product-card">
-          <img src="https://via.placeholder.com/150" alt="Product 1" />
-          <h3>Product 1</h3>
-          <p>High-quality product with amazing features.</p>
-          <p><strong>Price:</strong> $29.99</p>
-        </div>
-        
-        <div className="product-card">
-          <img src="https://via.placeholder.com/150" alt="Product 2" />
-          <h3>Product 2</h3>
-          <p>Experience top-notch performance and durability.</p>
-          <p><strong>Price:</strong> $49.99</p>
-        </div>
-        
-        <div className="product-card">
-          <img src="https://via.placeholder.com/150" alt="Product 3" />
-          <h3>Product 3</h3>
-          <p>Get the best value for your money with this product.</p>
-          <p><strong>Price:</strong> $19.99</p>
-        </div>
-      </div>
-    </>
+      <h1>Welcome to Admin Panel</h1>
+<Link to="./products">Products</Link>
+      <h2>Add Product</h2>
+      <form onSubmit={addProduct} className="product-form">
+        <input type="text" name="name" placeholder="Product Name" value={newProduct.name} onChange={handleChange} required />
+        <input type="number" name="price" placeholder="Price" value={newProduct.price} onChange={handleChange} required />
+        <textarea name="description" placeholder="Description" value={newProduct.description} onChange={handleChange} required />
+        <input type="file" name="image" accept="image/*" onChange={handleChange} required />
+        <button type="submit">Add Product</button>
+      </form>
+      </>    
   );
 }
 
